@@ -1,0 +1,658 @@
+{% load static %}<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+  </script>
+  <script type="text/javascript">
+   function add_run_to_group(run_select_name, group_select_name){
+var yourselect = document.getElementById( run_select_name );
+ var group1_records= document.getElementById(group_select_name); 
+var opt = document.createElement("option" );
+opt.value =yourselect.options[ yourselect.selectedIndex ].value;
+opt.innerHTML = yourselect.options[yourselect.selectedIndex ].text;
+opt.selected = true;
+
+var already_exist = false;
+
+for (i = 0; i < document.getElementById(group_select_name).length; ++i){
+
+    if (document.getElementById(group_select_name).options[i].value == opt.value ){
+      already_exist  = true;
+      break;
+
+    }
+}
+
+if (already_exist == false){
+    group1_records.appendChild(opt);
+}
+
+}
+
+function remove_options(group_selector) {
+var selectElement= document.getElementById(group_selector)
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
+
+   function group_add_options(group_name, select_name, group_record) {
+     const selectElement = document.getElementById(select_name);
+     group_name_str = document.getElementById(group_name).value;
+const options = selectElement.options;
+for (let i = 0; i < options.length; i++) {
+    const option = selectElement.options[i];
+  
+  // check if the option label contains the keyword group_name_str 
+  if (option.label.includes(group_name_str)) {
+     option.selected = true;
+    add_run_to_group(select_name, group_record);
+  }
+}
+   }
+  </script>
+  <script type="text/javascript">
+   if ("{{message|safe}}" != "")
+    {alert("{{ message|safe }}");}
+  </script>
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+  <title>
+   WWA DDA DIA Comparison
+  </title>
+  <meta content="" name="description"/>
+  <link href="{% static '/assets/img/main.png' %}" rel="icon" sizes="400x400" type="image/png"/>
+  <link href="{% static '/assets/img/main.png' %}" rel="icon" sizes="400x400" type="image/png"/>
+  <link href="{% static '/assets/img/main.png' %}" rel="icon" sizes="400x400" type="image/png"/>
+  <link href="{% static '/assets/img/main.png' %}" rel="icon" sizes="400x400" type="image/png"/>
+  <link href="{% static '/assets/img/main.png' %}" rel="icon" sizes="400x400" type="image/png"/>
+  <link href="{% static '/assets/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet"/>
+  <link href="{% static '/assets/fonts/font-awesome.min.css' %}" rel="stylesheet"/>
+  <link href="{% static '/assets/fonts/ionicons.min.css' %}" rel="stylesheet"/>
+  <link href="{% static '/assets/css/styles.min.css' %}" rel="stylesheet"/>
+  <link href="{% static '/assets/css/SO-floating-nav_15.min.css' %}" rel="stylesheet"/>
+ </head>
+ <body id="page-top">
+  <div id="wrapper">
+   <div dont-float="true" id="nt-compact">
+    <ul>
+     <li>
+      <label style="color: rgb(255,255,255);">
+       {{ user.username }}
+      </label>
+     </li>
+     <li>
+      <a href="/files/" title="Dashboard">
+       <i class="fa fa-th-large">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Dashboard
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+     </li>
+     <li>
+      <a href="/files/visualization/" title="Visualization">
+       <i class="fa fa-vimeo">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Visualization
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+      <a href="/files/processing/" title="Processing Center">
+       <i class="fa fa-product-hunt">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Processing
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+      <a href="/files/records/" title="Records">
+       <svg class="bi bi-caret-right-fill" fill="currentColor" height="1em" viewbox="0 0 16 16" width="1em" xmlns="http://www.w3.org/2000/svg">
+        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z">
+        </path>
+       </svg>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Records
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+      <a href="/files/settings/" title="settings">
+       <i class="fa fa-cogs">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Settings
+        </p>
+       </div>
+      </a>
+      <a href="/" onmouseover="javascript:event.target.port=8080" title="Advance">
+       <i class="icon ion-android-warning">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family: 'Ubuntu Condensed', sans-serif;">
+         Advance
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+      <a href="{% url 'logout' %}" title="logout">
+       <i class="fa fa-sign-out">
+       </i>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Logout
+        </p>
+       </div>
+      </a>
+     </li>
+     <li>
+      <a href="/files/help/" title="Help">
+       <svg class="bi bi-question" fill="currentColor" height="1em" viewbox="0 0 16 16" width="1em" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z">
+        </path>
+       </svg>
+       <div class="nt-tooltip">
+        <p style="font-family:'Ubuntu Condensed', sans-serif;">
+         Help
+        </p>
+       </div>
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div class="d-flex flex-column" id="content-wrapper">
+    <div id="main">
+     <script type="text/javascript">
+      console.log("{{message|safe}}")
+if ("{{message|safe}}" != "")
+    {alert("{{ message|safe }}");}
+     </script>
+     <div class="container-fluid">
+      <div>
+       <div class="row">
+        <div class="col">
+         <form enctype="multipart/form-data" method="post">
+          <div style="visibility: hidden; display:inline;">
+           <p>
+            {% csrf_token %}
+           </p>
+          </div>
+          <div style="visibility: hidden; display:inline;">
+           <p>
+            {% csrf_token %}
+           </p>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <p class="text-dark" style="font-size: 20px;text-align: center;">
+             <strong>
+              WWA DDA and DIA Comparison (Processing)
+             </strong>
+            </p>
+           </div>
+          </div>
+          <hr/>
+          <div class="form-row">
+           <div class="col">
+            <p>
+             Analysis Name
+            </p>
+            <input class="form-control" name="new_analysis_name" type="text" value="{{formdata.new_analysis_name}}"/>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <p class="text-dark" style="font-size: 20px;text-align: center;">
+             <strong>
+              Config the comparison
+             </strong>
+            </p>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <div class="form-row">
+             <div class="col">
+              <p>
+               Choose WWA method or upload new one (zip):
+              </p>
+              <select class="form-control" id="WWA_option" name="WWA_option">
+               <option selected="" value="system_default">
+                  System Default
+                 </option>
+               {% for item in WWAMethod %}
+               <div>
+                <option value="{{item}}">
+                 {{item}}
+                </option>
+               </div>
+               {% endfor %}
+               <option value="custom">
+                custom_upload below
+               </option>
+
+               <option value="None">
+                None
+               </option>
+              </select>
+              <input accept=".zip" class="form-control-file" name="WWA_file" type="file"/>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <div class="form-row">
+             <div class="col">
+              <p>
+               Choose DDA method or upload new one (zip):
+              </p>
+              <select class="form-control" id="DDA_option" name="DDA_option">
+               <option selected="" value="system_default">
+                  System Default
+                 </option>
+               {% for item in DDAMethod %}
+               <div>
+                <option value="{{item}}">
+                 {{item}}
+                </option>
+               </div>
+               {% endfor %}
+               <option value="custom">
+                custom_upload below
+               </option>
+
+               <option value="None">
+                None
+               </option>
+              </select>
+              <input accept=".zip" class="form-control-file" name="DDA_file" type="file"/>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <div class="form-row">
+             <div class="col">
+              <p>
+               Choose DIA method or upload new one (zip):
+              </p>
+              <select class="form-control" id="DIA_option" name="DIA_option">
+               <option selected="" value="system_default">
+                  System Default
+                 </option>
+               {% for item in DIAMethod %}
+               <div>
+                <option value="{{item}}">
+                 {{item}}
+                </option>
+               </div>
+               {% endfor %}
+               <option value="custom">
+                custom_upload below
+               </option>
+               
+               <option value="None">
+                None
+               </option>
+              </select>
+              <input accept=".zip" class="form-control-file" name="DIA_file" type="file"/>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <!-- <div class="form-row">
+             <div class="col">
+              <button class="btn btn-primary" name="download_methods" style="background: var(--blue);" type="submit">
+               Download the selected methods (all three)
+              </button>
+              <button class="btn btn-primary" name="delete_methods" style="background: var(--red);" type="submit">
+               Delete the selected methods (all three)
+              </button>
+             </div> -->
+            </div>
+           </div>
+          </div>
+          <hr/>
+          <div class="form-row">
+           <div class="col">
+            <p class="text-dark" style="font-size: 20px;text-align: center;">
+             <strong>
+              Assign Sample Type for Processing
+             </strong>
+            </p>
+           </div>
+          </div>
+          <div class="table-responsive tbl-wfx mt-1 kot-table">
+           <table class="table table-sm">
+            <thead class="text-dark font-md">
+             <tr class="text-dark-blue">
+              <th class="text-center w-10x" style="width: 5%;">
+               Group name
+              </th>
+              <th class="text-center w-10x" style="width: 5%;">
+               Acquisition mode
+              </th>
+              <th class="text-center w-10x" style="width: 20%;">
+               Add or remove runs
+              </th>
+              <th class="text-center w-10x" style="width: 10%;">
+               Current runs in the group
+               <br/>
+              </th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td>
+               <div class="col offset-xl-0" style="text-align: center;">
+                <p style="font-size: 25px;text-align: center;">
+                 WWA
+                </p>
+               </div>
+              </td>
+              <td>
+               <div class="col">
+                <p>
+                 Choose runs to add:
+                </p>
+                <select class="form-control" id="run_for_group1" name="run_for_group1" style="width:100%">
+                 {% for item in SampleRecord %}
+                 <div>
+                  <option value="{{item.pk}}">
+                   {{item.pk}}_{{item.record_name}}
+                  </option>
+                 </div>
+                 {% endfor %}
+                </select>
+                <p>
+                 Filter in keywords
+                </p>
+                <input class="form-control" id="group1_name" name="group1_name" style="width: 100%;" type="text" value="{{formdata.group1_name}}"/>
+               </div>
+              </td>
+              <td>
+               <button class="btn btn-primary" onclick='add_run_to_group("run_for_group1","group1_record")' type="button">
+                Add run to group WWA
+               </button>
+               <button class="btn btn-primary" onclick='group_add_options("group1_name","run_for_group1", "group1_record")' type="button">
+                Add all runs contain keyword
+               </button>
+               <button class="btn btn-primary" onclick='remove_options("group1_record")' type="button">
+                Remove all from group WWA
+               </button>
+              </td>
+              <td>
+               <p>
+                Current runs in group WWA (only selected one will be used)
+               </p>
+               <select class="form-control" id="group1_record" multiple="" name="group1_record">
+                {% for item in saved_settings.group1_record %}
+                <div>
+                 <option selected="" value="{{item.value}}">
+                  {{item.value}}_{{item.option}}
+                 </option>
+                </div>
+                {% endfor %}
+               </select>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               <div class="col offset-xl-0" style="text-align: center;">
+                <p style="font-size: 25px;text-align: center;">
+                 DDA Runs
+                </p>
+               </div>
+              </td>
+              <td>
+               <div class="col">
+                <p>
+                 Choose runs to add:
+                </p>
+                <select class="form-control" id="run_for_group2" name="run_for_group2" style="width:100%">
+                 {% for item in SampleRecord %}
+                 <div>
+                  <option value="{{item.pk}}">
+                   {{item.pk}}_{{item.record_name}}
+                  </option>
+                 </div>
+                 {% endfor %}
+                </select>
+                <p>
+                 Filter in keywords
+                </p>
+                <input class="form-control" id="group2_name" name="group2_name" style="width: 100%;" type="text" value="{{formdata.group2_name}}"/>
+               </div>
+              </td>
+              <td>
+               <button class="btn btn-primary" onclick='add_run_to_group("run_for_group2","group2_record")' type="button">
+                Add run to group DDA
+               </button>
+               <button class="btn btn-primary" onclick='group_add_options("group2_name","run_for_group2", "group2_record")' type="button">
+                Add all runs contain keyword
+               </button>
+               <button class="btn btn-primary" onclick='remove_options("group2_record")' type="button">
+                Remove all from group DDA
+               </button>
+              </td>
+              <td>
+               <p>
+                Current runs in group DDA (only selected one will be used)
+               </p>
+               <select class="form-control" id="group2_record" multiple="" name="group2_record">
+                {% for item in saved_settings.group2_record %}
+                <div>
+                 <option selected="" value="{{item.value}}">
+                  {{item.value}}_{{item.option}}
+                 </option>
+                </div>
+                {% endfor %}
+               </select>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               <div class="col offset-xl-0" style="text-align: center;">
+                <p style="font-size: 25px;text-align: center;">
+                 DIA Runs
+                </p>
+               </div>
+              </td>
+              <td>
+               <div class="col">
+                <p>
+                 Choose runs to add:
+                </p>
+                <select class="form-control" id="run_for_group3" name="run_for_group3" style="width:100%">
+                 {% for item in SampleRecord %}
+                 <div>
+                  <option value="{{item.pk}}">
+                   {{item.pk}}_{{item.record_name}}
+                  </option>
+                 </div>
+                 {% endfor %}
+                </select>
+                <p>
+                 Filter in keywords
+                </p>
+                <input class="form-control" id="group3_name" name="group3_name" style="width: 100%;" type="text" value="{{formdata.group3_name}}"/>
+               </div>
+              </td>
+              <td>
+               <button class="btn btn-primary" onclick='add_run_to_group("run_for_group3","group3_record")' type="button">
+                Add run to group DIA
+               </button>
+               <button class="btn btn-primary" onclick='group_add_options("group3_name","run_for_group3", "group3_record")' type="button">
+                Add all runs contain keyword
+               </button>
+               <button class="btn btn-primary" onclick='remove_options("group3_record")' type="button">
+                Remove all from group DIA
+               </button>
+              </td>
+              <td>
+               <p>
+                Current runs in group DIA (only selected one will be used)
+               </p>
+               <select class="form-control" id="group3_record" multiple="" name="group3_record">
+                {% for item in saved_settings.group3_record %}
+                <div>
+                 <option selected="" value="{{item.value}}">
+                  {{item.value}}_{{item.option}}
+                 </option>
+                </div>
+                {% endfor %}
+               </select>
+              </td>
+             </tr>
+             <tr>
+              <td>
+               <div class="col offset-xl-0" style="text-align: center;">
+                <p style="font-size: 25px;text-align: center;">
+                 Library Runs
+                </p>
+               </div>
+              </td>
+              <td>
+               <div class="col">
+                <p>
+                 Choose runs to add:
+                </p>
+                <select class="form-control" id="run_for_group4" name="run_for_group4" style="width:100%">
+                 {% for item in SampleRecord %}
+                 <div>
+                  <option value="{{item.pk}}">
+                   {{item.pk}}_{{item.record_name}}
+                  </option>
+                 </div>
+                 {% endfor %}
+                </select>
+                <p>
+                 Filter in keywords
+                </p>
+                <input class="form-control" id="group4_name" name="group4_name" style="width: 100%;" type="text" value="{{formdata.group4_name}}"/>
+               </div>
+              </td>
+              <td>
+               <button class="btn btn-primary" onclick='add_run_to_group("run_for_group4","group4_record")' type="button">
+                Add run to group Library
+               </button>
+               <button class="btn btn-primary" onclick='group_add_options("group4_name","run_for_group4", "group4_record")' type="button">
+                Add all runs contain keyword
+               </button>
+               <button class="btn btn-primary" onclick='remove_options("group4_record")' type="button">
+                Remove all from group Library
+               </button>
+              </td>
+              <td>
+               <p>
+                Current runs in group Library (only selected one will be used)
+               </p>
+               <select class="form-control" id="group4_record" multiple="" name="group4_record">
+                {% for item in saved_settings.group4_record %}
+                <div>
+                 <option selected="" value="{{item.value}}">
+                  {{item.value}}_{{item.option}}
+                 </option>
+                </div>
+                {% endfor %}
+               </select>
+              </td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <div class="form-row">
+            </div>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <div class="form-row">
+             <div class="col">
+              <label>
+               <strong>
+                keep the uploaded method
+               </strong>
+               <br/>
+              </label>
+              <select class="form-control" name="keep_method">
+               <option value="True">
+                Yes
+               </option>
+               <option selected="" value="False">
+                No
+               </option>
+              </select>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <hr/>
+            <button class="btn btn-primary" name="submit_run" type="submit">
+             Submit
+            </button>
+           </div>
+          </div>
+          <div class="form-row">
+           <div class="col">
+            <!-- <div class="form-row">
+             <div class="col">
+              <p>
+               Choose a Setting file to import
+              </p>
+              <input accept=".pdProcessingWF" class="form-control-file" name="pd_process_file" type="file"/>
+             </div>
+             <div class="col">
+              <button class="btn btn-primary" name="import_settings" type="submit">
+               Import settings
+              </button>
+             </div>
+            </div> -->
+           </div>
+          </div>
+         </form>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="{% static '/assets/js/jquery.min.js' %}">
+  </script>
+  <script src="{% static '/assets/bootstrap/js/bootstrap.min.js' %}">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js">
+  </script>
+  <script src="{% static '/assets/js/script.min.js' %}">
+  </script>
+  <script src="{% static '/assets/js/SO-floating-nav_15.min.js' %}">
+  </script>
+ </body>
+</html>
